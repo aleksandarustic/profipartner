@@ -37,11 +37,11 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),         // Your FACEBOOK Client ID
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'), // Your FACEBOOK Client Secret
-        'redirect' => 'http://localhost:8000/login/facebook/callback',
+        'redirect' => env('APP_URL').'/login/facebook/callback',
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),         // Your GOOGLE Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Your GOOGLE Client Secret
-        'redirect' => 'http://localhost:8000/login/google/callback',
+        'redirect' => env('APP_URL').'/login/google/callback',
     ],
 ];
