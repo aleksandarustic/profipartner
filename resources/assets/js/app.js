@@ -7,7 +7,6 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
 import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import BootstrapVue from 'bootstrap-vue'
@@ -47,6 +46,7 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue')
 );
 
+window.Vue = require('vue');
 window.Form = Form;
 window.swal = swal;
 window.toast = toast;
