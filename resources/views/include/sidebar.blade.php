@@ -55,6 +55,21 @@
               </router-link>
             </li>
             @endrole
+          
+            @role('superadministrator|administrator')
+            <li class="nav-item">
+              <router-link to="/dashboard/manage/customers" class="nav-link">
+                <i class="fa fas fa-user-friends nav-icon"></i>
+                <p>Customers</p>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/dashboard/manage/rewards" class="nav-link">
+                <i class="fa fas fa-user-friends nav-icon"></i>
+                <p>Loyalty Rewards</p>
+              </router-link>
+            </li>
+            @endrole
             <li class="nav-item">
               <router-link to="/dashboard/manage/passport" class="nav-link">
                 <i class="fas fa-toolbox nav-icon"></i>

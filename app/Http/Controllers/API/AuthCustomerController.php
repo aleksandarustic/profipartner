@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Customer;
 use Illuminate\Support\Facades\Hash;
 
 
-class AuthController extends Controller
+class AuthCustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,39 +30,29 @@ class AuthController extends Controller
     {
         $this->validate($request,[
             'provider' => 'required|string',
-            'provider_id' => 'required|integer',
+            'provider_id' => 'required|string',
         ]);
 
-        $user = User::where('provider_id',$request->provider_id)->where('provider',$request->provider)->first();
+        $customer = Customer::where('provider_id',$request->provider_id)->where('provider',$request->provider)->first();
 
-        if($user){
-            return ['message' => 'success'];
+        if($customer){
+            return ['customer_id' => $customer->id];
         }
         else{
 
             $this->validate($request,[
                 'username' => 'required|string|max:150',
-                'email' => 'required|string|email|max:150|unique:users'
+                'email' => 'required|string|email|max:150'
             ]);
 
-            if(!empty($request->input('password'))){
-               $password = Hash::make($request->input('password'));
-            }
-            else{
-               $password = null;
-            }
-
-             User::create([
-                'name' =>$request->input('username'),
+            $customer = Customer::create([
                 'username' =>$request->input('username'),
                 'email' => $request->input('email'),
                 'provider' => $request->input('provider'),
                 'provider_id' => $request->input('provider_id'),
-                'photo' => 'profile.png',
-                'password' => $password
-            ])->attachRole('user');
+            ]);
 
-            return ['message' => 'success'];
+            return ['customer_id' => $customer->id];
         }
 
     }

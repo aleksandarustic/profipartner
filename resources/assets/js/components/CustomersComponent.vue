@@ -3,9 +3,9 @@
 
     <div class="card mt-3">
         <div class="card-header">
-            <h3 class="card-title mb-0">Users Table</h3>
+            <h3 class="card-title mb-0">Customers Table</h3>
             <div class="card-tools">
-                <button class="btn btn-success" @click="add_user_modal">Add New <i class="fas fa-user-plus fa-fw"></i></button>
+                <button class="btn btn-success" @click="add_customer_modal">Add New <i class="fas fa-user-plus fa-fw"></i></button>
             </div>
         </div>
         <div class="card-body">
@@ -19,8 +19,8 @@
 
                         <template slot="table-row" slot-scope="props">
                             <span v-if="props.column.field == 'modify'">
-                                <a href="#" @click="edit_user_modal(props.row)"><i class="fas fa-user-edit"></i></a>
-                                <a href="#" @click.prevent="delete_user(props.row.id)"><i class="fas fa-user-minus text-danger"></i></a>
+                                <a href="#" @click="edit_customer_modal(props.row)"><i class="fas fa-user-cog"></i></a>
+                                <a href="#" @click.prevent="delete_customer(props.row.id)"><i class="fas fa-user-slash text-danger"></i></a>
                             </span>
                             <span v-else>
                                 {{props.formattedRow[props.column.field]}}
@@ -29,13 +29,13 @@
 
                     </vue-good-table>
 
-                         <form @submit.prevent="!edit_mode ? add_user() : edit_user()">
+                         <form @submit.prevent="!edit_mode ? add_customer() : edit_customer()">
 
-                        <b-modal id="user_modal" v-model="modal_displayed" size="lg" :title="!edit_mode ? 'Add New' : 'Update User\'s Info'">
+                        <b-modal id="user_modal" v-model="modal_displayed" size="lg" :title="!edit_mode ? 'Add New Customer' : 'Update Customer\'s Info'">
                             <div class="form-group">
-                                <input v-model="form.name" type="text" name="name" placeholder="Name" class="form-control"
-                                    :class="{ 'is-invalid': form.errors.has('name') }">
-                                <has-error :form="form" field="name"></has-error>
+                                <input v-model="form.username" type="text" name="username" placeholder="Username" class="form-control"
+                                    :class="{ 'is-invalid': form.errors.has('username') }">
+                                <has-error :form="form" field="username"></has-error>
                             </div>
 
                             <div class="form-group">
@@ -45,24 +45,17 @@
                             </div>
 
                             <div class="form-group">
-                                <textarea v-model="form.bio" name="bio" id="bio" placeholder="Short bio for user (Optional)"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
-                                <has-error :form="form" field="bio"></has-error>
+                                <input v-model="form.provider" name="provider" type="text" id="provider" placeholder="Provider(Facebook | Google) Optional"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('provider') }">
+                                <has-error :form="form" field="provider"></has-error>
                             </div>
 
                             <div class="form-group">
-                                <input v-model="form.password" type="password" name="password" id="password"
-                                    placeholder="Password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
-                                <has-error :form="form" field="password"></has-error>
+                                <input v-model="form.provider_id" name="provider_id" type="text" id="provider_id" placeholder="Provider id Optional"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('provider_id') }">
+                                <has-error :form="form" field="provider_id"></has-error>
                             </div>
 
-                            <div class="form-group">
-
-                              <b-form-select required multiple :select-size="3" name="roles" id="roles" v-model="form.selected_roles" :options="$parent.role_types" class="mb-3">
-                            
-                              </b-form-select>
-
-                            </div>
                             <div slot="modal-footer">
                                 <button type="button" class="btn btn-danger" @click="modal_displayed = false">Close</button>
                                 <button v-show="edit_mode" type="submit" class="btn btn-success">Update</button>
@@ -97,12 +90,10 @@ export default {
       edit_mode: false,
       form: new Form({
         id: "",
-        name: "",
+        username: "",
         email: "",
-        password: "",
-        bio: "",
-        photo: "",
-        selected_roles:[]
+        provider: '',
+        provider_id: ''
       }),
       columns: [
         {
@@ -110,21 +101,24 @@ export default {
           field: "id",
         },
         {
-          label: "Name",
-          field: "name"
+          label: "Username",
+          field: "username"
         },
         {
           label: "Email",
           field: "email"
         },
         {
-          label: "Roles",
-          field: "roles_name",
-          sortable: false,
+          label: "Provider",
+          field: "provider"
         },
         {
           label: "Registered At",
           field: "created_at"
+        },
+         {
+          label: "Available points",
+          field: "points"
         },
         {
           label: "Modify",
@@ -172,54 +166,54 @@ export default {
       this.loadItems();
     },
     loadItems() {
-      axios.post("/api/users/load", this.serverParams).then(response => {
+      axios.post("/api/customers/load", this.serverParams).then(response => {
         this.totalRecords = response.data.totalRecords;
         this.rows = response.data.rows;
       });
     },
-    add_user_modal: function() {
+    add_customer_modal: function() {
       this.form.reset();
       this.edit_mode = false;
       this.modal_displayed = true;
     },
-    edit_user_modal: function(user) {
+    edit_customer_modal: function(user) {
       this.form.reset();
       this.edit_mode = true;
       this.modal_displayed = true;
       this.form.fill(user);
     },
-    edit_user: function() {
+    edit_customer: function() {
       this.$Progress.start();
       this.form
-        .put("/api/users/" + this.form.id)
+        .put("/api/customers/" + this.form.id)
         .then(response => {
           this.loadItems();
           this.$Progress.finish();
-          swal("Updated!", "User has been updated.", "success");
+          swal("Updated!", "Customer has been updated.", "success");
           this.modal_displayed = false;
         })
         .catch(exception => {
           this.$Progress.fail();
         });
     },
-    add_user: function() {
+    add_customer: function() {
       this.$Progress.start();
       this.form
-        .post("/api/users")
+        .post("/api/customers")
         .then(request => {
           this.loadItems();
           this.$Progress.finish();
           this.modal_displayed = false;
           toast({
             type: "success",
-            title: "User created succesfuly"
+            title: "Customer created succesfuly"
           });
         })
         .catch(exception => {
           this.$Progress.fail();
         });
     },
-    delete_user: function(user_id) {
+    delete_customer: function(customer_id) {
       swal({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -232,9 +226,9 @@ export default {
         if (result.value) {
           this.$Progress.start();
           axios
-            .delete("/api/users/" + user_id)
+            .delete("/api/customers/" + customer_id)
             .then(response => {
-              swal("Deleted!", "User has been deleted.", "success");
+              swal("Deleted!", "Customer has been deleted.", "success");
               this.loadItems();
               this.$Progress.finish();
             })

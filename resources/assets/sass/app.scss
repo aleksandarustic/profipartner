@@ -28,12 +28,16 @@
   background-color: #007bff;
 }
 
-.modal-open {
+.modal-open,.swal2-shown {
   padding-right: 0px !important;
 }
 [v-cloak] { display:none; }
 
 
-.receipt_thumbnails{
+.card_thumbnails{
    cursor: pointer;
+}
+
+.invalid-feedback{
+  display: block;
 }

@@ -7,6 +7,8 @@
 
 require('./bootstrap');
 
+window.Vue = require('vue');
+
 import VueRouter from 'vue-router'
 import VueProgressBar from 'vue-progressbar'
 import BootstrapVue from 'bootstrap-vue'
@@ -46,7 +48,6 @@ Vue.component(
     require('./components/passport/PersonalAccessTokens.vue')
 );
 
-window.Vue = require('vue');
 window.Form = Form;
 window.swal = swal;
 window.toast = toast;
@@ -61,8 +62,10 @@ window.objectToForm = objectToForm;
 const routes = [
     { path: '/dashboard', component:  require('./components/ExampleComponent.vue') },
     { path: '/dashboard/profile', component:  require('./components/ProfileComponent.vue') },
-    { path: '/dashboard/loaylty', component:  require('./components/LoayltyComponent.vue') },
+    { path: '/dashboard/loaylty', component:  require('./components/CardsComponent.vue') },
     { path: '/dashboard/manage/users', component:  require('./components/UsersComponent.vue') },
+    { path: '/dashboard/manage/customers', component:  require('./components/CustomersComponent.vue') },
+    { path: '/dashboard/manage/rewards', component:  require('./components/RewardsComponent.vue') },
     { path: '/dashboard/manage/passport', component:  require('./components/AdvanceComponent.vue') },
 ];
 

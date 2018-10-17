@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReceiptTable extends Migration
+class CreateRewardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateReceiptTable extends Migration
      */
     public function up()
     {
-        Schema::create('receipts', function (Blueprint $table) {
+        Schema::create('rewards', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('points');
+            $table->string('name');
             $table->string('image');
-            $table->mediumText('desc')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateReceiptTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('receipts');
+        Schema::dropIfExists('rewards');
     }
 }

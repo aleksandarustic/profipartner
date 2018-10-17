@@ -30294,7 +30294,8 @@ readers do not read off random characters that represent icons */
   background-color: #007bff;
 }
 
-.modal-open {
+.modal-open,
+.swal2-shown {
   padding-right: 0px !important;
 }
 
@@ -30302,7 +30303,11 @@ readers do not read off random characters that represent icons */
   display: none;
 }
 
-.receipt_thumbnails {
+.card_thumbnails {
   cursor: pointer;
+}
+
+.invalid-feedback {
+  display: block;
 }
 

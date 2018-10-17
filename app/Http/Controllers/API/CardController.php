@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Receipt;
+use App\Card;
 
-class ReceiptController extends Controller
+class CardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,11 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        $receipts = Receipt::with(array('user'=>function($query){
-            $query->select('id','name');
-        }))->orderBy('created_at','decs')->get();
+        $cards = Card::with(array('customer'=>function($query){
+            $query->select('id','username');
+        }))->orderBy('created_at','desc')->get();
 
-        return $receipts;
+        return $cards;
     }
 
     /**
@@ -31,9 +31,9 @@ class ReceiptController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'user_id' => 'required|integer',
-            'desc' => 'nullable|string|max:2500',
-            'image' => 'required|image|max:2048'
+            'customer_id' => 'required|integer|exists:customers,id',
+            'note' => 'nullable|string|max:2500',
+            'image' => 'required|image|max:2048|dimensions:min_width=100,min_height=100'
         ]);
 
         if($request->hasFile('image')){
@@ -43,14 +43,14 @@ class ReceiptController extends Controller
             $extension = $request->file('image')->getClientOriginalExtension();
             $file_name_to_store = $file_name . '_' . time() . '.'.$extension;
 
-            $request->file('image')->storeAs('public/receipt_images',$file_name_to_store);
+            $request->file('image')->storeAs('public/card_images',$file_name_to_store);
 
             $request->merge(array('image' => $file_name_to_store));
         }
 
-        return Receipt::create(
-            ['desc' => $request->desc,
-            'user_id' => $request->user_id,
+        return Card::create(
+            ['note' => $request->note,
+            'customer_id' => $request->customer_id,
             'image' => $request->input('image')
          ]);
 
@@ -76,7 +76,20 @@ class ReceiptController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $card = Card::findOrFail($id);
+
+        $this->validate($request,[
+            'points' => 'required|integer',
+        ]);
+        $card->customer->points -= $card->points;
+        $card->customer->points += $request->points;
+        $card->points = $request->points;
+        $card->status = 1;
+        $card->save();
+        $card->customer->save();
+
+        return ['message' => 'Points has been updated'];     
+
     }
 
     /**
@@ -87,6 +100,11 @@ class ReceiptController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $card = Card::findOrFail($id);
+        $card->customer->points -= $card->points;
+        $card->customer->save();
+        $card->delete();
+
+        return ['message' => 'Card has been deleted'];
     }
 }

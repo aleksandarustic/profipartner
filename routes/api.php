@@ -18,15 +18,28 @@ Route::group(['middleware' => ['auth:api']],function(){
     Route::post('users/load','UserController@load')->middleware('role:superadministrator');
     Route::post('users/profile/{id}','UserController@profile');
 
+    Route::post('customers/load','API\CustomerController@load')->middleware('role:superadministrator');
+
     Route::apiResources([
-        'receipts' => 'API\ReceiptController',
+        'rewards' => 'API\RewardController',
     ],['middleware' => ['role:superadministrator|administrator']]);
 
-    Route::post('register/user','API\AuthController@register')->middleware('role:superadministrator|administrator|user');
+    Route::post('rewards/{id}','API\RewardController@update')->middleware('role:superadministrator|administrator');
 
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => []],function(){
+
+    Route::apiResources([
+        'cards' => 'API\CardController',
+    ]);
+
+    Route::apiResources([
+        'customers' => 'API\CustomerController',
+    ]);
+
 });
+
+Route::post('register/user','API\AuthCustomerController@register');
+
 
