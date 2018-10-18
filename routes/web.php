@@ -27,6 +27,8 @@ Route::any('/{vue_capture?}', 'DashboardController@index')->where('vue_capture',
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
 
+Route::get('privacy', 'Auth\PageController@privacy');
+Route::get('tos', 'Auth\PageController@tos');
 
 //oute::prefix('dashboard')->any('/','DashboardController@index');
 //Route::any('/dashboard','DashboardController@index');
