@@ -21191,7 +21191,7 @@ window.objectToForm = __WEBPACK_IMPORTED_MODULE_6_object_to_form__["objectToForm
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var routes = [{ path: '/dashboard', component: __webpack_require__(283) }, { path: '/dashboard/profile', component: __webpack_require__(286) }, { path: '/dashboard/loaylty', component: __webpack_require__(289) }, { path: '/dashboard/manage/users', component: __webpack_require__(292) }, { path: '/dashboard/manage/customers', component: __webpack_require__(295) }, { path: '/dashboard/manage/rewards', component: __webpack_require__(298) }, { path: '/dashboard/manage/passport', component: __webpack_require__(301) }];
+var routes = [{ path: '/dashboard', component: __webpack_require__(283) }, { path: '/dashboard/profile', component: __webpack_require__(286) }, { path: '/dashboard/loaylty', component: __webpack_require__(289) }, { path: '/dashboard/manage/users', component: __webpack_require__(292) }, { path: '/dashboard/manage/customers', component: __webpack_require__(295) }, { path: '/dashboard/manage/rewards', component: __webpack_require__(298) }, { path: '/dashboard/orders', component: __webpack_require__(319) }, { path: '/dashboard/manage/passport', component: __webpack_require__(301) }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
     mode: 'history',
@@ -94111,6 +94111,601 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(11)
+/* script */
+var __vue_script__ = __webpack_require__(320)
+/* template */
+var __vue_template__ = __webpack_require__(321)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/OrdersComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-08b3cab1", Component.options)
+  } else {
+    hotAPI.reload("data-v-08b3cab1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 320 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+  created: function created() {
+    this.$on("datachanged", this.loadTableData);
+    this.$emit("datachanged");
+    this.getRewardOptions();
+    this.getCustomerOptions();
+  },
+  data: function data() {
+    return {
+      modal_displayed: false,
+      edit_mode: false,
+      reward_options: [],
+      customer_options: [],
+      form: new Form({
+        id: "",
+        customer_id: null,
+        reward_id: null,
+        points: ''
+      }),
+      columns: [{
+        label: "ID",
+        field: "id"
+      }, {
+        label: "Customer",
+        field: "customer_id"
+      }, {
+        label: "Reward",
+        field: "reward_id"
+      }, {
+        label: "Points spent",
+        field: "points"
+      }, {
+        label: "Ordered At",
+        field: "created_at"
+      }, {
+        label: "Modify",
+        field: "modify",
+        sortable: false,
+        html: true
+      }],
+      rows: [],
+      totalRecords: 0,
+      serverParams: {
+        sort: {
+          field: "created_at",
+          type: "desc"
+        },
+        page: 1,
+        perPage: 10
+      }
+    };
+  },
+  methods: {
+    getRewardOptions: function getRewardOptions() {
+      var _this = this;
+
+      axios.get('/api/rewards/options').then(function (result) {
+        _this.reward_options = result.data;
+      });
+    },
+    getCustomerOptions: function getCustomerOptions() {
+      var _this2 = this;
+
+      axios.get('/api/customers/options').then(function (result) {
+        _this2.customer_options = result.data;
+      });
+    },
+    updateParams: function updateParams(newProps) {
+      this.serverParams = Object.assign({}, this.serverParams, newProps);
+    },
+    onPageChange: function onPageChange(params) {
+      if (this.serverParams.page != params.currentPage && this.serverParams.perPage == params.currentPerPage) {
+        this.updateParams({ page: params.currentPage });
+        this.$emit("datachanged");
+      }
+    },
+    onPerPageChange: function onPerPageChange(params) {
+      this.updateParams({ perPage: params.currentPerPage });
+      this.$emit("datachanged");
+    },
+    onSortChange: function onSortChange(params) {
+
+      this.updateParams({
+        sort: {
+          type: params.sortType,
+          field: this.columns[params.columnIndex].field
+        }
+      });
+      this.$emit("datachanged");
+    },
+    loadTableData: function loadTableData() {
+      var _this3 = this;
+
+      axios.post("/api/orders/load", this.serverParams).then(function (response) {
+        _this3.totalRecords = response.data.totalRecords;
+        _this3.rows = response.data.rows;
+      });
+    },
+
+    add_order_modal: function add_order_modal() {
+      this.form.reset();
+      this.edit_mode = false;
+      this.modal_displayed = true;
+    },
+    edit_order_modal: function edit_order_modal(order) {
+      this.form.reset();
+      this.edit_mode = true;
+      this.modal_displayed = true;
+      this.form.fill(order);
+    },
+    edit_order: function edit_order() {
+      var _this4 = this;
+
+      this.$Progress.start();
+      this.form.put("/api/orders/" + this.form.id).then(function (response) {
+        _this4.$emit("datachanged");
+        _this4.$Progress.finish();
+        swal("Updated!", "Order has been updated.", "success");
+        _this4.modal_displayed = false;
+      }).catch(function (exception) {
+        _this4.$Progress.fail();
+      });
+    },
+    add_order: function add_order() {
+      var _this5 = this;
+
+      this.$Progress.start();
+      this.form.post("/api/orders").then(function (request) {
+        _this5.$emit("datachanged");
+        _this5.$Progress.finish();
+        _this5.modal_displayed = false;
+        toast({
+          type: "success",
+          title: "Order created succesfuly"
+        });
+      }).catch(function (exception) {
+        _this5.$Progress.fail();
+        swal({
+          title: "Error: " + exception.response.data.message,
+          type: "error"
+        });
+      });
+    },
+    delete_order: function delete_order(order_id) {
+      var _this6 = this;
+
+      swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.value) {
+          _this6.$Progress.start();
+          axios.delete("/api/orders/" + order_id).then(function (response) {
+            swal("Deleted!", "Order has been deleted.", "success");
+            _this6.$emit("datachanged");
+            _this6.$Progress.finish();
+          }).catch(function (exception) {
+            _this6.$Progress.fail();
+            swal({
+              title: "Error:" + exception,
+              type: "error"
+            });
+          });
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-fluid" }, [
+    _c("div", { staticClass: "card mt-3" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("h3", { staticClass: "card-title mb-0" }, [
+          _vm._v("Loyalty Orders")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-tools" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              on: { click: _vm.add_order_modal }
+            },
+            [_vm._v("Add New "), _c("i", { staticClass: "fas fa-cart-plus" })]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "card-body" },
+        [
+          _c("vue-good-table", {
+            attrs: {
+              mode: "remote",
+              totalRows: _vm.totalRecords,
+              "pagination-options": {
+                enabled: true,
+                perPageDropdown: [5, 10, 20, 50],
+                perPage: 10
+              },
+              rows: _vm.rows,
+              columns: _vm.columns
+            },
+            on: {
+              "on-page-change": _vm.onPageChange,
+              "on-sort-change": _vm.onSortChange,
+              "on-per-page-change": _vm.onPerPageChange
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "table-row",
+                fn: function(props) {
+                  return [
+                    props.column.field == "customer_id"
+                      ? _c("span", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(props.row.customer.username) +
+                              "\n                        "
+                          )
+                        ])
+                      : props.column.field == "reward_id"
+                        ? _c("span", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(props.row.reward.name) +
+                                "\n                        "
+                            )
+                          ])
+                        : props.column.field == "modify"
+                          ? _c("span", [
+                              _c(
+                                "a",
+                                {
+                                  attrs: { href: "#" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.edit_order_modal(props.row)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "fas fa-edit" })]
+                              )
+                            ])
+                          : _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    props.formattedRow[props.column.field]
+                                  ) +
+                                  "\n                        "
+                              )
+                            ])
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  !_vm.edit_mode ? _vm.add_order() : _vm.edit_order()
+                }
+              }
+            },
+            [
+              _c(
+                "b-modal",
+                {
+                  attrs: {
+                    id: "order_modal",
+                    size: "lg",
+                    title: !_vm.edit_mode ? "Add New Order" : "Update Order's"
+                  },
+                  model: {
+                    value: _vm.modal_displayed,
+                    callback: function($$v) {
+                      _vm.modal_displayed = $$v
+                    },
+                    expression: "modal_displayed"
+                  }
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "b-form-select",
+                        {
+                          staticClass: "mb-3",
+                          attrs: {
+                            required: "",
+                            name: "customer_id",
+                            id: "customer_id",
+                            options: _vm.customer_options,
+                            state: _vm.form.errors.has("customer_id")
+                              ? false
+                              : null
+                          },
+                          model: {
+                            value: _vm.form.customer_id,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "customer_id", $$v)
+                            },
+                            expression: "form.customer_id"
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [_vm._v("-- Please select a customer  --")]
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "b-form-select",
+                        {
+                          staticClass: "mb-3",
+                          attrs: {
+                            required: "",
+                            name: "reward_id",
+                            id: "reward_id",
+                            options: _vm.reward_options,
+                            state: _vm.form.errors.has("reward_id")
+                              ? false
+                              : null
+                          },
+                          model: {
+                            value: _vm.form.reward_id,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "reward_id", $$v)
+                            },
+                            expression: "form.reward_id"
+                          }
+                        },
+                        [
+                          _c(
+                            "option",
+                            {
+                              attrs: { disabled: "" },
+                              domProps: { value: null }
+                            },
+                            [_vm._v("-- Please select a reward  --")]
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { attrs: { slot: "modal-footer" }, slot: "modal-footer" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              _vm.modal_displayed = false
+                            }
+                          }
+                        },
+                        [_vm._v("Close")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.edit_mode,
+                              expression: "edit_mode"
+                            }
+                          ],
+                          staticClass: "btn btn-success",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Update")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.edit_mode,
+                              expression: "!edit_mode"
+                            }
+                          ],
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Create")]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-08b3cab1", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

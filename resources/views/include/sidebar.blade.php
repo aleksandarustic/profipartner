@@ -34,6 +34,18 @@
           </router-link>
 
         </li>
+        <li class="nav-item">
+
+          <router-link to="/dashboard/orders" class="nav-link">
+
+            <i class="nav-icon fas fa-money-bill-alt"></i>
+            <p>
+              Loyalty Orders
+            </p>
+          </router-link>
+
+        </li>
+
         @endrole
 
         @role('user|administrator|superadministrator')

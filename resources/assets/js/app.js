@@ -66,6 +66,7 @@ const routes = [
     { path: '/dashboard/manage/users', component:  require('./components/UsersComponent.vue') },
     { path: '/dashboard/manage/customers', component:  require('./components/CustomersComponent.vue') },
     { path: '/dashboard/manage/rewards', component:  require('./components/RewardsComponent.vue') },
+    { path: '/dashboard/orders', component:  require('./components/OrdersComponent.vue') },
     { path: '/dashboard/manage/passport', component:  require('./components/AdvanceComponent.vue') },
 ];
 

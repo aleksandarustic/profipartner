@@ -32,6 +32,11 @@ class CustomerController extends Controller
         return ['rows' => $customers,'totalRecords' => $totalRecords];
     }
 
+    public function get_select_options(){
+        $customers = Customer::all()->pluck('username', 'id');
+        return $customers;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -24,6 +24,12 @@ class RewardController extends Controller
         return $rewards;
     }
 
+
+    public function get_select_options(){
+        $rewards = Reward::all()->pluck('name', 'id');
+        return $rewards;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
