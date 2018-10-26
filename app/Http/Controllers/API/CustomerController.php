@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Customer;
+use Auth;
 
 class CustomerController extends Controller
 {
@@ -15,7 +16,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customer = Auth::user();
+        return ['message' => 'succeess'];
     }
 
 
@@ -51,15 +53,6 @@ class CustomerController extends Controller
             'provider' => 'required|string|unique:customers,provider,NULL,NULL,provider_id,'.$request['provider_id'],
             'provider_id' => 'required|string|unique:customers,provider_id,NULL,NULL,provider,'.$request['provider'],
         ]);
-
-        /*$this->validate($request, [
-            'course_id' => 'required|unique:course_subject, course_id, NULL, NULL, subject_id, ' . $request['subject_id'],
-            'subject_id' => 'required|unique:course_subject, subject_id, NULL, NULL, course_id, ' . $request['course_id'],
-        ]);*/
-
-
-        // $customer = Customer::where('provider_id',$request->provider_id)->where('provider',$request->provider)->first();
-        // if(!$customer){}
         
         return Customer::create(
             ['username' => $request->username,

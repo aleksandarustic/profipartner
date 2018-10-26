@@ -20,6 +20,7 @@ class CreateCustomerTable extends Migration
             $table->string('provider_id',100);
             $table->string('email',100);
             $table->integer('points')->default(0);
+            $table->string('api_token',100)->unique();
             $table->timestamps();
             $table->unique(['provider_id', 'provider']);
        });
