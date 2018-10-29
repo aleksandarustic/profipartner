@@ -11,89 +11,544 @@
         }
     ],
     "paths": {
+        "/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get current customer ",
+                "description": "Returns info about authetificate customer",
+                "operationId": "get_user",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Update customer info",
+                "description": "",
+                "operationId": "update_customer",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "requestBody": {
+                    "description": "Customer object",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/register/customer": {
+            "post": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get api key for customer and register customer if he does not exist in database",
+                "description": "Return customer info and add customer if nessery",
+                "operationId": "register_customer",
+                "requestBody": {
+                    "description": "Customer object",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
         "/cards": {
             "get": {
                 "tags": [
-                    "cards"
+                    "Cards"
                 ],
                 "summary": "Get all customer cards",
                 "description": "Returns all customer cards",
                 "operationId": "get_cards",
                 "parameters": [
                     {
-                        "name": "Accept:",
-                        "in": "header",
-                        "description": "ID of pet that needs to be fetched",
+                        "name": "api_token",
+                        "in": "query",
                         "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "int64"
-                        }
+                        "schema": {}
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cards"
+                ],
+                "summary": "Add new loyalty user card",
+                "description": "",
+                "operationId": "add_card",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "requestBody": {
+                    "description": "Card object",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Card"
+                            }
+                        }
                     }
                 },
-                "security": [
-                    {
-                        "api_key": []
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
-                ]
+                }
             }
         },
         "/cards/{id}": {
             "get": {
                 "tags": [
-                    "cards"
+                    "Cards"
                 ],
                 "summary": "Find card by ID",
                 "description": "Gets customer card",
                 "operationId": "get_card",
                 "parameters": [
                     {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    },
+                    {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of pet that needs to be fetched",
+                        "description": "ID of loyalty card",
                         "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "maximum": 10,
                             "minimum": 1
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cards"
+                ],
+                "summary": "Update loyalty card",
+                "description": "",
+                "operationId": "update_card",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
                     },
-                    "400": {
-                        "description": "Invalid ID supplied"
+                    {
+                        "name": "_method",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "default": "PUT"
+                        }
                     },
-                    "404": {
-                        "description": "Order not found"
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of loyalty card",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Card object",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Card"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cards"
+                ],
+                "summary": "Delete loyalty card",
+                "description": "Delete loyalty card",
+                "operationId": "delete_card",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of loyalty card",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 }
             }
         },
-        "/user": {
+        "/rewards": {
+            "get": {
+                "tags": [
+                    "Rewards"
+                ],
+                "summary": "Get all rewards",
+                "description": "Returns all rewards",
+                "operationId": "get_rewards",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/rewards/{id}": {
+            "get": {
+                "tags": [
+                    "Rewards"
+                ],
+                "summary": "Find reward by ID",
+                "description": "Gets reward",
+                "operationId": "get_reward",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of reward",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get all customer orders",
+                "description": "Returns all customer orders",
+                "operationId": "get_cards",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
-                    "user"
+                    "Orders"
                 ],
-                "summary": "Create user",
-                "description": "This can only be done by the logged in user.",
-                "operationId": "createUser",
+                "summary": "Add new order",
+                "description": "",
+                "operationId": "add_order",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    }
+                ],
                 "requestBody": {
-                    "description": "Created user object",
-                    "required": true
+                    "description": "Order object",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
                 },
                 "responses": {
-                    "default": {
-                        "description": "successful operation"
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Find order by ID",
+                "description": "Gets customer order",
+                "operationId": "get_order",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of order",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Update order",
+                "description": "",
+                "operationId": "update_order",
+                "parameters": [
+                    {
+                        "name": "api_token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {}
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of Order",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Order object",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Card": {
+                "properties": {
+                    "note": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "text"
+                    },
+                    "image": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Card"
+                }
+            },
+            "Customer": {
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "provider": {
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "provider_id": {
+                        "type": "string",
+                        "format": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Customer"
+                }
+            },
+            "Order": {
+                "properties": {
+                    "reward_id": {
+                        "type": "string",
+                        "format": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Order"
                 }
             }
         }

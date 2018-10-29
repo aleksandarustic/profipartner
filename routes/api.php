@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth:api']],function(){
 
     Route::post('orders/load','API\OrderController@load')->middleware('role:superadministrator|administrator');
 
-
     Route::resource('rewards', 'API\RewardController')->except([
          'show','edit'
     ])->middleware('role:superadministrator|administrator');

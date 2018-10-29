@@ -74,7 +74,7 @@ class CustomerController extends Controller
             'provider_id' => 'nullable|string|unique:customers,provider_id,'.$customer->id.',id,provider,'.$request['provider'],
         ]);
 
-        $customer->update($request->except(['points']));
+        $customer->update($request->input());
 
         return ['message' => 'Updated the customer info'];     
     }

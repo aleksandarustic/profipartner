@@ -111,8 +111,7 @@ class CardController extends Controller
         $this->validate($request, [
             'note' => 'nullable|string|max:2500',
             'image' => 'nullable|image|max:2048|dimensions:min_width=100,min_height=100',
-        ]);
-        
+        ]);        
 
         // Hadle file upload
         if($request->hasFile('image')){
@@ -149,7 +148,7 @@ class CardController extends Controller
     {
         $customer = Auth::user();
         $card = Card::findOrFail($id);
-        if($card->id != $customer->id){
+        if($card->customer_id != $customer->id){
             $json = [
                 'status' => 'error',
                 'message' => "Card does not belong to you",
