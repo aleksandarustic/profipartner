@@ -14,19 +14,28 @@
 - npm install
 - npm run dev
 
+## ServerAccess
+
+- ssh root@159.69.214.124
+- Password: Harpo128!
+
 ## Authentification
 
 role - superadmin
 
-superadministrator@app.com
-password
+- superadministrator@app.com
+- password
 
 role - admin
 
-administrator@app.com
-password
+- administrator@app.com
+- password
 
 role - user
 
-user@app.com
-password
+- user@app.com
+- password
+
+## Api documentation
+
+https://profipartner.rs/api/documentation
