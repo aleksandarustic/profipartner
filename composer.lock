@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e812d1a3dca50f659f4f20f9f445c40",
+    "content-hash": "0f55b6d8e226ff5178a2ebdc64dce58d",
     "packages": [
         {
             "name": "coenjacobs/eloquent-composite-primary-keys",
